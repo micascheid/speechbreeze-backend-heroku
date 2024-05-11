@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, request
-from app.database.models import Slp
-from app.database import db
+from app.app import Slp
+from app.app import db
 
 
 slp_bp = Blueprint('slp', __name__)

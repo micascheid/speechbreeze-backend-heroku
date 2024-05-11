@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, request
-from app.database.models import Lsa, Utterance
-from app import mlus_calculator
+from app.app import Lsa, Utterance
+from app.app import mlus_calculator
 import spacy
 nlp = spacy.load("en_core_web_sm")
 lsas_bp = Blueprint('lsas', __name__)

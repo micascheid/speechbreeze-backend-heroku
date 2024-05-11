@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, request
-from app.database.models import Patient
-from app.database import db
+from app.app import Patient
+from app.app import db
 
 patients_bp = Blueprint('patients', __name__)
 
