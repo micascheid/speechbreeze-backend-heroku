@@ -3,8 +3,7 @@ import os
 from flask import Blueprint, request, jsonify
 from dotenv import load_dotenv
 import stripe
-from database.models import Slp
-from datetime import datetime
+from app.database.models import Slp
 
 load_dotenv()
 stripe_sk = os.getenv('STRIPE_SK')

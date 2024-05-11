@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, request
-from database.models import OrgCustomer, Slp
-from database import db
+from app.database.models import OrgCustomer, Slp
+from app.database import db
 
 
 org_bp = Blueprint('org_customers', __name__)

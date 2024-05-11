@@ -35,34 +35,34 @@ nlp = spacy.load("en_core_web_sm")
 
 # Set the database URI for SQLAlchemy
 def create_application():
-    application = Flask(__name__)
-    CORS(application, resources={r"/*": {"origins": "http://localhost:3000"}})
-    application.config['SQLALCHEMY_DATABASE_URI'] = f"postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
-    application.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    app = Flask(__name__)
+    CORS(app)
+    app.config['SQLALCHEMY_DATABASE_URI'] = f"postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-    application.register_blueprint(stripe_bp, url_prefix='/stripe')
-    application.register_blueprint(org_bp, url_prefix='/org-customers')
-    application.register_blueprint(lsas_bp, url_prefix='/lsas')
-    application.register_blueprint(slp_bp, url_prefix='/slp')
-    application.register_blueprint(patients_bp, url_prefix='/patients')
-    application.register_blueprint(lsa_bp, url_prefix='/lsa')
+    app.register_blueprint(stripe_bp, url_prefix='/stripe')
+    app.register_blueprint(org_bp, url_prefix='/org-customers')
+    app.register_blueprint(lsas_bp, url_prefix='/lsas')
+    app.register_blueprint(slp_bp, url_prefix='/slp')
+    app.register_blueprint(patients_bp, url_prefix='/patients')
+    app.register_blueprint(lsa_bp, url_prefix='/lsa')
 
-    with application.app_context():
-        db.init_app(application)
-    return application
-
-
-application = create_application()
+    with app.app_context():
+        db.init_app(app)
+    return app
 
 
-@application.route('/')
+app = create_application()
+
+
+@app.route('/')
 def index():
     return "<p>Alive and super duper duper well</p>"
 
 
 
 
-@application.route('/upload-audio', methods=['POST'])
+@app.route('/upload-audio', methods=['POST'])
 def upload_audio():
     if 'audio' not in request.files:
         return jsonify({'error': 'No audio file part'}), 400
@@ -136,7 +136,7 @@ def upload_audio():
     return jsonify({'file_url': file_url, 'message': f'File {filename} uploaded successfully and LSA updated'}), 200
 
 
-@application.route('/get-audio-url', methods=['GET'])
+@app.route('/get-audio-url', methods=['GET'])
 def get_audio_url():
     lsa_id = request.args.get('lsa_id')
     audio_fileurl = Lsa.get_audiofile_url_by_id(int(lsa_id))
@@ -166,7 +166,7 @@ def get_audio_url():
         return jsonify({'error': 'Failed to generate pre-signed URL'}), 500
 
 
-@application.route('/create-automated-transcription', methods=['GET'])
+@app.route('/create-automated-transcription', methods=['GET'])
 def create_automated_transcription():
     lsa_id = request.args.get('lsa_id')
     audio_fileurl = Lsa.get_audiofile_url_by_id(int(lsa_id))
@@ -215,7 +215,7 @@ def create_automated_transcription():
         print(f"Exception: {e}")
 
 
-@application.route('/get-transcription', methods=['GET'])
+@app.route('/get-transcription', methods=['GET'])
 def get_transcription():
     lsa_id = request.args.get('lsaId')
     print('get-transcription', lsa_id)
@@ -229,7 +229,7 @@ def get_transcription():
         return jsonify({"error": f"An error occurred retrieving patients lsa {lsa_id} transcription"}), 500
 
 
-@application.route('/update-transcription/<int:lsa_id>', methods=['PATCH'])
+@app.route('/update-transcription/<int:lsa_id>', methods=['PATCH'])
 def update_transcription(lsa_id):
     data = request.json
 
@@ -251,4 +251,4 @@ def update_transcription(lsa_id):
 
 
 if __name__ == "__main__":
-    application.run(debug=True)
+    app.run()

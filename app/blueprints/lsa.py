@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, request
-from database.models import Lsa
-from database import db
+from app.database.models import Lsa
+from app.database import db
 from datetime import datetime
 lsa_bp = Blueprint('lsa', __name__)
 
