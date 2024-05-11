@@ -1,7 +1,7 @@
 from . import db
 from sqlalchemy import DECIMAL, Integer, Text, Boolean, Date, String, func, Enum, text
 from typing import Optional
-from app.app import normalize_text
+from app.utils import normalize_text
 import copy
 
 
