@@ -12,6 +12,6 @@ deepgram-sdk==3.2.7
 flask-cors==4.0.1
 stripe==9.5.0
 Flask-SQLAlchemy==3.1.1
-https://github.com/explosion/spacy-models/releases/tag/en_core_web_sm-3.7.1/en_core_web_sm-3.7.1.tar.gz
+https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.7.1/en_core_web_sm-3.7.1.tar.gz
 psycopg2-binary==2.9.9
 
