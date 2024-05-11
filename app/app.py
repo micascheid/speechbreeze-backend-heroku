@@ -9,14 +9,14 @@ import boto3
 from deepgram import DeepgramClient, PrerecordedOptions
 from botocore.exceptions import ClientError
 from botocore.config import Config
-from database import db
-from database.models import Slp, Patient, Lsa
-from blueprints.stripe_webhooks import stripe_bp
-from blueprints.lsas import lsas_bp
-from blueprints.org_users import org_bp
-from blueprints.slp import slp_bp
-from blueprints.patients import patients_bp
-from blueprints.lsa import lsa_bp
+from .database import db
+from .database.models import Slp, Patient, Lsa
+from .blueprints.stripe_webhooks import stripe_bp
+from .blueprints.lsas import lsas_bp
+from .blueprints.org_users import org_bp
+from .blueprints.slp import slp_bp
+from .blueprints.patients import patients_bp
+from .blueprints.lsa import lsa_bp
 load_dotenv()
 from werkzeug.utils import secure_filename
 # Environment variables
