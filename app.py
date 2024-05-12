@@ -25,8 +25,8 @@ AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
 # AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
 API_KEY = os.getenv("DG_API_KEY")
 S3_BUCKET_NAME = os.getenv('S3_BUCKET_NAME')
-DATABASE_URL = os.getenv('DATABASE_URL')
 nlp = spacy.load("en_core_web_sm")
+
 
 app = create_app()
 

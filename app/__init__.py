@@ -9,11 +9,24 @@ from .blueprints.patients import patients_bp
 from .blueprints.lsa import lsa_bp
 import os
 
+
+def db_url_jank_fix():
+    original_db_url = os.getenv('DATABASE_URL')
+
+    if original_db_url and original_db_url.startswith('postgres://'):
+        modified_db_url = original_db_url.replace('postgres://', 'postgresql://', 1)
+        os.environ["DATABASE_URL"] = modified_db_url
+    else:
+        modified_db_url = original_db_url
+
+    return modified_db_url
+
+
 def create_app():
     app = Flask(__name__)
     CORS(app)
 
-    app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')
+    app.config['SQLALCHEMY_DATABASE_URI'] = db_url_jank_fix()
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
     db.init_app(app)
