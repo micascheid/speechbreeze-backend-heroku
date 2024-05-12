@@ -1,13 +1,13 @@
 from flask import Flask
 from flask_cors import CORS
-from .extensions import db, cors
-from .blueprints.stripe_webhooks import stripe_bp
-from .blueprints.lsas import lsas_bp
-from .blueprints.org_users import org_bp
-from .blueprints.slp import slp_bp
-from .blueprints.patients import patients_bp
-from .blueprints.lsa import lsa_bp
-from .blueprints.general import general_bp
+from app.extensions import db, cors
+from app.blueprints.stripe_webhooks import stripe_bp
+from app.blueprints.lsas import lsas_bp
+from app.blueprints.org_users import org_bp
+from app.blueprints.slp import slp_bp
+from app.blueprints.patients import patients_bp
+from app.blueprints.lsa import lsa_bp
+from app.blueprints.general import general_bp
 import os
 
 
