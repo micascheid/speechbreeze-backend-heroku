@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, request
 from app.database.models import OrgCustomer, Slp
-from app.database.models import db
+from app.extensions import db
 
 
 org_bp = Blueprint('org_customers', __name__)
