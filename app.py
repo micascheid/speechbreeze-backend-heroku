@@ -9,16 +9,10 @@ import boto3
 from deepgram import DeepgramClient, PrerecordedOptions
 from botocore.exceptions import ClientError
 from botocore.config import Config
-from .database import db
-from .database.models import Slp, Patient, Lsa
-from .blueprints.stripe_webhooks import stripe_bp
-from .blueprints.lsas import lsas_bp
-from .blueprints.org_users import org_bp
-from .blueprints.slp import slp_bp
-from .blueprints.patients import patients_bp
-from .blueprints.lsa import lsa_bp
+from app.database.models import Lsa
 load_dotenv()
 from werkzeug.utils import secure_filename
+from app import create_app
 # Environment variables
 DB_NAME = os.getenv('DB_NAME')
 DB_USER = os.getenv('DB_USER')
@@ -30,29 +24,10 @@ AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
 # AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
 API_KEY = os.getenv("DG_API_KEY")
 S3_BUCKET_NAME = os.getenv('S3_BUCKET_NAME')
+DATABASE_URL = os.getenv('DATABASE_URL')
 nlp = spacy.load("en_core_web_sm")
 
-
-# Set the database URI for SQLAlchemy
-def create_application():
-    app = Flask(__name__)
-    CORS(app)
-    app.config['SQLALCHEMY_DATABASE_URI'] = f"postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
-    app.register_blueprint(stripe_bp, url_prefix='/stripe')
-    app.register_blueprint(org_bp, url_prefix='/org-customers')
-    app.register_blueprint(lsas_bp, url_prefix='/lsas')
-    app.register_blueprint(slp_bp, url_prefix='/slp')
-    app.register_blueprint(patients_bp, url_prefix='/patients')
-    app.register_blueprint(lsa_bp, url_prefix='/lsa')
-
-    with app.app_context():
-        db.init_app(app)
-    return app
-
-
-app = create_application()
+app = create_app()
 
 
 @app.route('/')

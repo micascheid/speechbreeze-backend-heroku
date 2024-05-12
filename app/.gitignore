@@ -1,6 +1,6 @@
 *.pyc
+.env
 
 __pycache__/
-/blueprints/__pycache__/
-/database/__pycache__/
-
+./database/__pycache__/
+./blueprints/__pycache__/
