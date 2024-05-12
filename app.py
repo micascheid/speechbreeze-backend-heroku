@@ -3,6 +3,7 @@ from sqlalchemy import text
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 
+from app.database import db
 from dotenv import load_dotenv
 import os
 import boto3
