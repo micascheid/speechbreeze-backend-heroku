@@ -2,5 +2,5 @@
 .env
 
 __pycache__/
-./database/__pycache__/
-./blueprints/__pycache__/
+app/database/__pycache__/
+app/blueprints/__pycache__/
