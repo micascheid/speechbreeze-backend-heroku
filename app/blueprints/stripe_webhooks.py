@@ -7,16 +7,16 @@ from app.database.models import Slp
 
 load_dotenv()
 stripe_sk = os.getenv('STRIPE_SK')
-stripe_monthly_price_id = os.getenv('STRIPE_MONTHLY_PRICE_ID')
-stripe_yearly_price_id = os.getenv('STRIPE_YEARLY_PRICE_ID')
-STRIPE_WEBHOOK_ID = os.getenv('STRIPE_WEBHOOK_ID')
+STRIPE_MONTHLY_PRICE_ID = os.getenv('STRIPE_MONTHLY_PRICE_ID')
+STRIPE_YEARLY_PRICE_ID = os.getenv('STRIPE_YEARLY_PRICE_ID')
+STRIPE_ENDPOINT_SECRET = os.getenv('STRIPE_ENDPOINT_SECRET')
 stripe_bp = Blueprint('stripe', __name__)
 
 
 
 subscription_plan = {
-    stripe_monthly_price_id: 1,
-    stripe_yearly_price_id: 2
+    STRIPE_MONTHLY_PRICE_ID: 1,
+    STRIPE_YEARLY_PRICE_ID: 2
 }
 
 
@@ -28,7 +28,7 @@ def handle_webhook():
 
     try:
         event = stripe.Webhook.construct_event(
-            payload, sig_header, STRIPE_WEBHOOK_ID
+            payload, sig_header, STRIPE_ENDPOINT_SECRET
         )
     except ValueError as e:
         return 'Bad payload', 400
