@@ -22,7 +22,7 @@ def lsas(uid):
 @lsas_bp.route('/<int:lsa_id>/utterances/batch-update', methods=['PUT'])
 def utterances_batch_update(lsa_id):
     utterances = request.json.get('utterances')
-    print("utterances", utterances)
+
     if utterances is None:
         return jsonify({"error": "Invalid utterances"}), 400
     try:
@@ -77,7 +77,7 @@ def crunch_results_mlu_tnw(lsa_id):
         return jsonify({"error": "Failed to crunch results"}), 500
 
 
-@lsas_bp.route('/lsas/<int:lsa_id>/morph-zero-update', methods=['POST'])
+@lsas_bp.route('/<int:lsa_id>/morph-zero-update', methods=['POST'])
 def morph_zero_update(lsa_id):
     try:
         utterances = request.json.get('utterances')
@@ -88,7 +88,7 @@ def morph_zero_update(lsa_id):
         return jsonify({"message": "Unable to save corrected morphemes"}), 500
 
 
-@lsas_bp.route('/lsas/<int:lsa_id>/crunch-results-wps-cps', methods=['POST'])
+@lsas_bp.route('/<int:lsa_id>/crunch-results-wps-cps', methods=['POST'])
 def crunch_results_wps_cps(lsa_id):
     try:
         utterances = Utterance.get_utterances(lsa_id)
@@ -103,7 +103,7 @@ def crunch_results_wps_cps(lsa_id):
         return jsonify({'error': message}), 500
 
 
-@lsas_bp.route('/lsas/<int:lsa_id>/utterances-wps-cps-save', methods=['POST'])
+@lsas_bp.route('/<int:lsa_id>/utterances-wps-cps-save', methods=['POST'])
 def save_wps_cps(lsa_id):
     try:
         utterances = request.json.get('utterances')

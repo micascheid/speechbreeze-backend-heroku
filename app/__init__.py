@@ -10,9 +10,10 @@ from app.blueprints.lsa import lsa_bp
 from app.blueprints.general import general_bp
 import os
 
+DEBUG_MODE = os.getenv('DEBUG_MODE', False)
 
 def db_url_jank_fix():
-    original_db_url = os.getenv('DATABASE_URL')
+    original_db_url = os.getenv("DATABASE_URL")
 
     if original_db_url and original_db_url.startswith('postgres://'):
         modified_db_url = original_db_url.replace('postgres://', 'postgresql://', 1)
@@ -24,8 +25,8 @@ def db_url_jank_fix():
 
 
 def create_app():
-    print("HELLLO")
     app = Flask(__name__)
+    app.debug = os.getenv("DEBUG_MODE", False) == "True"
     cors.init_app(app)
     app.config['SQLALCHEMY_DATABASE_URI'] = db_url_jank_fix()
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
