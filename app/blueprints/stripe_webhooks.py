@@ -9,7 +9,7 @@ load_dotenv()
 stripe_sk = os.getenv('STRIPE_SK')
 stripe_monthly_price_id = os.getenv('STRIPE_MONTHLY_PRICE_ID')
 stripe_yearly_price_id = os.getenv('STRIPE_YEARLY_PRICE_ID')
-endpoint_secret = os.getenv('STRIPE_ENDPOINT_SECRET')
+STRIPE_WEBHOOK_ID = os.getenv('STRIPE_WEBHOOK_ID')
 stripe_bp = Blueprint('stripe', __name__)
 
 
@@ -28,7 +28,7 @@ def handle_webhook():
 
     try:
         event = stripe.Webhook.construct_event(
-            payload, sig_header, endpoint_secret
+            payload, sig_header, STRIPE_WEBHOOK_ID
         )
     except ValueError as e:
         return 'Bad payload', 400
