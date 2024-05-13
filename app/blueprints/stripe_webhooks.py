@@ -9,9 +9,9 @@ load_dotenv()
 stripe_sk = os.getenv('STRIPE_SK')
 stripe_monthly_price_id = os.getenv('STRIPE_MONTHLY_PRICE_ID')
 stripe_yearly_price_id = os.getenv('STRIPE_YEARLY_PRICE_ID')
+endpoint_secret = os.getenv('STRIPE_ENDPOINT_SECRET')
 stripe_bp = Blueprint('stripe', __name__)
 
-endpoint_secret = 'whsec_0a951e68b79db3f2e7300818967690b173c05992f22c9f288deb33af0286046e'
 
 
 subscription_plan = {
