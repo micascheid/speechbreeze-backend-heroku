@@ -7,14 +7,16 @@ from app.database.models import Slp
 
 load_dotenv()
 stripe_sk = os.getenv('STRIPE_SK')
-
+stripe_monthly_price_id = os.getenv('STRIPE_MONTHLY_PRICE_ID')
+stripe_yearly_price_id = os.getenv('STRIPE_YEARLY_PRICE_ID')
 stripe_bp = Blueprint('stripe', __name__)
 
 endpoint_secret = 'whsec_0a951e68b79db3f2e7300818967690b173c05992f22c9f288deb33af0286046e'
 
+
 subscription_plan = {
-    'price_1PCmW7EnGNPnb7LNPGcI2MY7': 1,
-    'price_1PCmWXEnGNPnb7LNxwmGRBTL': 2
+    stripe_monthly_price_id: 1,
+    stripe_yearly_price_id: 2
 }
 
 
