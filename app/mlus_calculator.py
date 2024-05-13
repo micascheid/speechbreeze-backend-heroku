@@ -26,10 +26,7 @@ class MLUSCalculator:
             self.check_spelling(utter_obj)
             utter_counted[utter['utterance_id']] = utter_obj
 
-
-
         total_morph_count = sum(word_dict['morph_count'] for utterance_obj in utter_counted.values() for word_dict in utterance_obj.values())
-        print("Total Morph Count:", total_morph_count)
         return total_morph_count, utter_counted
 
     @staticmethod

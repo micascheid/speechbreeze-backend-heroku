@@ -17,6 +17,7 @@ subscription_plan = {
     'price_1PCmWXEnGNPnb7LNxwmGRBTL': 2
 }
 
+
 @stripe_bp.route('/webhook', methods=['POST'])
 def handle_webhook():
     event = None
