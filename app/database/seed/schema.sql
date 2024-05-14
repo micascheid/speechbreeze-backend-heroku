@@ -36,7 +36,7 @@ CREATE TABLE lsas (
     lsa_id SERIAL PRIMARY KEY,
     patient_id INT NOT NULL,
     name VARCHAR(255),
-    timestamp DATE NOT NULL,
+    created_at BIGINT NOT NULL DEFAULT EXTRACT(EPOCH FROM CURRENT_TIMESTAMP),
     audiofile_url TEXT,
     audio_type TEXT DEFAULT NULL,
     transcription TEXT,

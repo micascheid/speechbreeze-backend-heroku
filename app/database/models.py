@@ -1,5 +1,5 @@
 from app.extensions import db
-from sqlalchemy import DECIMAL, Integer, Text, Boolean, Date, String, func, Enum, text
+from sqlalchemy import DECIMAL, Integer, Text, Boolean, Date, String, func, Enum, text, BigInteger
 from typing import Optional
 from app.utils import normalize_text
 import copy
@@ -112,7 +112,7 @@ class Lsa(db.Model):
     lsa_id = db.Column(db.Integer, primary_key=True)
     patient_id = db.Column(Integer, db.ForeignKey('patients.patient_id', ondelete='CASCADE'), nullable=False)
     name = db.Column(String(255))
-    timestamp = db.Column(Date, nullable=False)
+    created_at = db.Column(db.BigInteger, nullable=False, default=db.func.extract('epoch', db.func.current_timestamp()))
     audiofile_url = db.Column(Text, nullable=True)
     audio_type = db.Column(Text, nullable=True)
     transcription = db.Column(Text)
@@ -131,8 +131,8 @@ class Lsa(db.Model):
         return lsas
 
     @staticmethod
-    def create_lsa(patient_id, name, transcription_automated, audio_type, timestamp):
-        new_lsa = Lsa(patient_id=patient_id, name=name, timestamp=timestamp,
+    def create_lsa(patient_id, name, transcription_automated, audio_type):
+        new_lsa = Lsa(patient_id=patient_id, name=name,
                       audiofile_url=None, transcription='', transcription_automated=transcription_automated,
                       transcription_final=False,
                       audio_type=audio_type, mlu_sugar_morph_count=0, mlu=0.0,
