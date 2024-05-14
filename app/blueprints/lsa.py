@@ -31,8 +31,7 @@ def create_lsa():
         return jsonify({"error": "Missing required LSA info"}), 400
     try:
         new_lsa = Lsa.create_lsa(patient_id=patient_id, name=lsa_name, transcription_automated=transcription_automated,
-                       audio_type=audio_type,
-                       timestamp=current_date)
+                       audio_type=audio_type)
         return jsonify({"message": "Lsa added successfully", "lsa_id": new_lsa.lsa_id}), 201
     except Exception as e:
         print(f"An error occurred: {e}")

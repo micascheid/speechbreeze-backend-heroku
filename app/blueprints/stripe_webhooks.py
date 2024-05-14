@@ -164,29 +164,4 @@ def handle_checkout_session_completed(event):
 event_handlers = {
     'invoice.payment_succeeded': handle_invoice_payment_succeeded,
     'checkout.session.completed': handle_checkout_session_completed,
-    # 'handle_customer_subscription_updated': handle_customer_subscription_updated,
 }
-
-# event_handlers = {
-#     'charge.succeeded': handle_charge_succeeded,
-#     'customer.created': handle_customer_created,
-#     'payment_method.attached': handle_payment_method_attached,
-#     'customer.updated': handle_customer_updated,
-#     'customer.subscription.created': handle_customer_subscription_created,
-#     'customer.subscription.updated': handle_customer_subscription_updated,
-#     'payment_intent.succeeded': handle_payment_intent_succeeded,
-#     'payment_intent.created': handle_payment_intent_created,
-#     'invoice.created': handle_invoice_created,
-#     'invoice.finalized': handle_invoice_finalized,
-#     'invoice.updated': handle_invoice_updated,
-#     'invoice.paid': handle_invoice_paid,
-#     'invoice.payment_succeeded': handle_invoice_payment_succeeded,
-#     'checkout.session.completed': handle_checkout_session_completed
-# }
-
-'''
-customer.created Done
-customer.subscription.updated Done
-invoice.payment_succeeded
-checkout.session.completed
-'''

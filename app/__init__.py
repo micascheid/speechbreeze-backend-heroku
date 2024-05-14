@@ -12,6 +12,7 @@ import os
 
 DEBUG_MODE = os.getenv('DEBUG_MODE', False)
 
+
 def db_url_jank_fix():
     original_db_url = os.getenv("DATABASE_URL")
 

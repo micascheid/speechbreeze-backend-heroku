@@ -12,6 +12,7 @@ from botocore.config import Config
 from app.database.models import Lsa
 import spacy
 import os
+from app.extensions import db
 API_KEY = os.getenv("DG_API_KEY")
 S3_BUCKET_NAME = os.getenv('S3_BUCKET_NAME')
 nlp = spacy.load("en_core_web_sm")
@@ -27,6 +28,18 @@ general_bp = Blueprint('general', __name__)
 @general_bp.route('/')
 def index():
     return "<p>Alive and super duper duper well</p>"
+
+
+@general_bp.route('/health-check', methods=['GET'])
+def health_check():
+    try:
+        #Database
+        print("trying")
+        result = db.session.execute(text("SELECT 1"))
+        print("QUERY:", result)
+        return jsonify({"status": "healthy"})
+    except:
+        return jsonify({"status": "down"})
 
 
 @general_bp.route('/upload-audio', methods=['POST'])
