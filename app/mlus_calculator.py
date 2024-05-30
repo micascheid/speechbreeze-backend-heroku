@@ -32,7 +32,14 @@ class MLUSCalculator:
     @staticmethod
     def check_spelling(utter_obj):
         spell = SpellChecker()
+        single_letter_words = {'i', 'a'}
         for item in utter_obj:
+
+            word_obj = utter_obj[item]
+            word = word_obj['word'].lower()
+            if word in single_letter_words:
+                word_obj['morph_count'] = 1
+                continue
 
             if utter_obj[item]['rule'] not in [11, 13]:
                 word_obj = utter_obj[item]
