@@ -1,0 +1,12 @@
+{
+  "name": "SpeechBreeze Backend",
+  "description": "LSA tool for SLPs",
+  "buildpacks": [
+    {
+      "url": "heroku/python"
+    },
+    {
+      "url": "https://github.com/jonathanong/heroku-buildpack-ffmpeg-latest.git"
+    }
+  ]
+}
