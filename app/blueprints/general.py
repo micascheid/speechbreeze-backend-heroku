@@ -1,10 +1,9 @@
 from flask import Blueprint
 from flask import request, jsonify
-from app.extensions import db
+from pydub import AudioSegment
+import ffmpeg
 from sqlalchemy import text
 import boto3
-from flask import Flask
-from flask_cors import CORS
 from werkzeug.utils import secure_filename
 from deepgram import DeepgramClient, PrerecordedOptions
 from botocore.exceptions import ClientError
@@ -54,6 +53,9 @@ def upload_audio():
     if 'lsa_id' not in request.form:
         return jsonify({'error': 'No LSA ID provided'}), 400
 
+    # Get the MIME Type from the form data
+    mime_type = request.form['mime_type']
+
     lsa_id_str = request.form['lsa_id']
     transcription_automated = bool(request.form.get('transcription_automated', False))
 
@@ -63,7 +65,26 @@ def upload_audio():
         return jsonify({'error': 'Invalid LSA ID format'}), 400
 
     filename = secure_filename(file.filename)
-    unique_filename = f"lsa_{lsa_id}_{filename}"
+
+    # Use MIME type to handle audio conversion
+    if mime_type == 'audio/mp4':
+        file_format = 'mp4'
+    elif mime_type == 'audio/webm':
+        file_format = 'webm'
+    elif mime_type == 'audio/wav':
+        file_format = 'wav'
+    else:
+        return jsonify({'error': 'Unsupported file format'}), 415
+
+    # Split the filename from its extension and add the .mp3 extension
+    base_filename = os.path.splitext(filename)[0]
+    new_filename = f"{base_filename}.mp3"
+
+    # Convert the audio file to MP3 format
+    audio_segment = AudioSegment.from_file(file, format=file_format)
+    audio_segment.export(new_filename, format='mp3')
+
+    unique_filename = f"lsa_{lsa_id}_{new_filename}"
 
     # Upload the file to S3
     s3 = boto3.client(
@@ -73,7 +94,10 @@ def upload_audio():
         region_name=AWS_DEFAULT_REGION,
     )
     try:
-        s3.upload_fileobj(file, S3_BUCKET_NAME, unique_filename)
+        with open(new_filename, 'rb') as f:
+            s3.upload_fileobj(f, S3_BUCKET_NAME, unique_filename)
+            # remove local file
+            os.remove(new_filename)
         # Construct the URL of the uploaded file
         file_url = f"https://{S3_BUCKET_NAME}.s3.{AWS_DEFAULT_REGION}.amazonaws.com/{unique_filename}"
     except Exception as e:
@@ -113,7 +137,7 @@ def upload_audio():
         except Exception as e:
             return jsonify({'error': 'Failed to transcribe audio'}), 500
 
-    return jsonify({'file_url': file_url, 'message': f'File {filename} uploaded successfully and LSA updated'}), 200
+    return jsonify({'file_url': file_url, 'message': f'File {new_filename} uploaded successfully and LSA updated'}), 200
 
 
 @general_bp.route('/get-audio-url', methods=['GET'])
@@ -144,7 +168,6 @@ def get_audio_url():
     except ClientError as e:
         print(e)
         return jsonify({'error': 'Failed to generate pre-signed URL'}), 500
-
 
 @general_bp.route('/create-automated-transcription', methods=['GET'])
 def create_automated_transcription():
