@@ -1,2 +1,2 @@
 # speechbreeze-backend
-SpeechBreeze Backend
+SpeechBreeze backend structured for Heroku deployment
